@@ -32,7 +32,7 @@ h3. Example session
 
 <pre>
 <code>
-sirb(main):8D42> vi
+sirb(main):8D42)> vi
 class A
   def poo
   end
@@ -40,10 +40,10 @@ end
 :wq
 =>nil
 
-sirb(main:8D42> A.new
+sirb(main:8D42)> A.new
 => #<SIRB::A:0x50a780>
 
-sirb(main:8D42> vi t.rb
+sirb(main:8D42)> vi t.rb
 class A
   def poo
   end
@@ -51,14 +51,14 @@ end
 :wq
 ...
 
-sirb(main:8D42> vi t.rb
+sirb(main:8D42)> vi t.rb
 :%s/A/B/g
 :wq
 
-sirb(main:8D42> B.new
+sirb(main:8D42)> B.new
 => <SIRB::B>
 
-sirb(main:8D42> ObjectSpace.each_object(SIRB) { |sirb| y sirb }
+sirb(main:8D42)> ObjectSpace.each_object(SIRB) { |sirb| y sirb }
 --- !ruby/object:SIRB 
 context: !ruby/object:Binding {}
 
