@@ -1,7 +1,7 @@
 require 'rubygems'
 require 'sinatra'
 
-require File.dirname(__FILE__) + '/sirb_env'
+require File.dirname(__FILE__) + '/sirb_server'
 require File.dirname(__FILE__) + '/helpers'
 
 enable :sessions
