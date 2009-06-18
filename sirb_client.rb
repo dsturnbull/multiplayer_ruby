@@ -4,8 +4,8 @@ require 'active_support/core_ext/array'
 require 'json'
 require 'httparty'
 
-SIRB_HOST = "localhost"
-SIRB_PORT = 4567
+SIRB_HOST = ARGV[0]
+SIRB_PORT = ARGV[1]
 SIRB_SESSION_FILE = "#{ENV['HOME']}/.sirb_session"
 
 class SIRBClient
