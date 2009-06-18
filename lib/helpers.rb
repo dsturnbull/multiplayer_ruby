@@ -41,19 +41,11 @@ if defined? HTTParty
 
     module ClassMethods
       # hax, since httparty doesn't do cookies properly yet.
-      def post(action, options={})
-        add_cookie!(options)
-        super(action, options)
-      end
-      
-      def get(action, options={})
-        add_cookie!(options)
-        super(action, options)
-      end
-
-      def add_cookie!(options)
-        options[:query] ||= {}
-        options[:query][:cookie] = cookies['rack.session']
+      def process_cookies(options)
+        return unless options[:cookies] || default_options[:cookies]
+        options[:headers] ||= {}
+        options[:headers]["cookie"] = cookies(options[:cookies] || {}).to_cookie_string
+        options.delete(:cookies)
       end
     end
   end
