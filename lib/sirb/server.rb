@@ -9,7 +9,7 @@ require 'htmlentities'
 
 class SIRB
   def initialize
-    @context = binding
+    @context = Sandbox.new
     @history = {}
     @mutex = Mutex.new
   end
