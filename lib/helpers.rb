@@ -16,37 +16,40 @@ class NilClass
   end
 end
 
-require 'sinatra'
-module Sinatra
-  class Base
-    private
-      alias_method :shitty_nested_params, :nested_params
-      def nested_params(*args)
-        begin
-          raw = request.env["rack.input"].read
-          JSON.parse(raw)
-        rescue
-          shitty_nested_params(*args)
+if defined? Sinatra
+  module Sinatra
+    class Base
+      private
+        alias_method :shitty_nested_params, :nested_params
+        def nested_params(*args)
+          begin
+            raw = request.env["rack.input"].read
+            JSON.parse(raw)
+          rescue
+            shitty_nested_params(*args)
+          end
         end
-      end
+    end
   end
 end
 
-module HTTParty::Hacks
-  def self.included(base)
-    base.extend(ClassMethods)
-  end
-
-  module ClassMethods
-    # hax, since httparty doesn't do cookies properly yet.
-    def post(action, query={})
-      query[:cookie] = cookies['rack.session']
-      super(action, query)
+if defined? HTTParty
+  module HTTParty::Hacks
+    def self.included(base)
+      base.extend(ClassMethods)
     end
-    
-    def get(action, query={})
-      query[:cookie] = cookies['rack.session']
-      super(action, query)
+
+    module ClassMethods
+      # hax, since httparty doesn't do cookies properly yet.
+      def post(action, query={})
+        query[:cookie] = cookies['rack.session']
+        super(action, query)
+      end
+      
+      def get(action, query={})
+        query[:cookie] = cookies['rack.session']
+        super(action, query)
+      end
     end
   end
 end
