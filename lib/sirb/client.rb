@@ -19,8 +19,9 @@ class SIRBClient
       File.read(SIRB_SESSION_FILE)
     else
       File.open(SIRB_SESSION_FILE, 'w') do |session_file|
-        session = self.get('/').headers['set-cookie'].pop
-        session_file << session.match(/=(.*);/)[1]
+        session = self.get('/').headers['set-cookie'].pop.match(/=(.*);/)[1]
+        session_file << session
+        session
       end
     end
   end
