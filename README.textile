@@ -8,6 +8,20 @@ h3. Connect to a central ruby interpreter.
 
 h3. How to use
 
+h4. gems
+
+* (debian/ubuntu: libreadline-ruby)
+* activesupport (2.3.2)
+* builder (2.1.2)
+* choctop (0.9.6)
+* crack (0.1.2)
+* echoe (3.1.1)
+* highline (1.5.1)
+* httparty (0.4.3)
+* json (1.1.6)
+* RedCloth (4.1.9)
+* rubyforge (1.0.3)
+
 <pre>
 <code>
 ruby sirb_client.rb hostname port
