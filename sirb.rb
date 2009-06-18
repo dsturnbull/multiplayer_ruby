@@ -22,12 +22,19 @@ get '/stylesheets/style.css' do
 end
 
 post '/sirb' do
+  p session
   content_type :json
   SIRBServer.execute(session, params['cmd'])
 end
 
 get '/sirb_history' do
+  p session
   content_type :json
-  SIRBServer.history(session, params[:page] || 1, params[:per_page] || 10, /#{params['matcher']}/)
+  SIRBServer.history(session, params[:page].to_i || 1, params[:per_page].to_i || 10, /#{params['matcher']}/)
 end
 
+get '/sirb_prompt' do
+  p session
+  content_type :json
+  { :result => session[:prompt] }.to_json
+end

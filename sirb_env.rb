@@ -17,8 +17,6 @@ class SIRB
   def history(user, page, per_page, matcher)
     start = (page - 1) * per_page
     finish = start + per_page - 1
-    p user
-    p user[:id]
     @history[user[:id]].reverse[start..finish].to_enum(:each_with_index).map do |cmd, id|
       { :id => id, :cmd => cmd }
     end
@@ -34,11 +32,10 @@ class SIRB
       begin
         _stdout = $stdout
         $stdout = StringIO.new("")
-        stdout << user[:prompt] + cmd
         output = @context.eval(cmd).inspect
         $stdout.rewind
         stdout += $stdout.read.split("\n")
-        stdout << "=>#{output}"
+        stdout << "=> #{output}"
       rescue Exception => e
         stdout << e.inspect[2 .. e.inspect.length - 2]
       ensure
@@ -55,10 +52,6 @@ end
 
 class SIRBServer
   @@uri = "druby://localhost:9000"
-
-  def self.encoded_result(result)
-    { :result => encoded(result) }.to_json
-  end
 
   def self.encoded(result)
     # sigh
@@ -78,11 +71,11 @@ class SIRBServer
   end
 
   def self.history(*args)
-    encoded(self.initialize_interface.history(*args)).to_json
+    self.initialize_interface.history(*args).to_json
   end
 
   def self.execute(*args)
-    encoded_result(self.initialize_interface.execute(*args))
+    { :result => self.initialize_interface.execute(*args) }.to_json
   end
 
   def self.initialize_interface
