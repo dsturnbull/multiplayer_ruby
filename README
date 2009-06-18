@@ -1,3 +1,222 @@
-how to use:
+h2. SIRB
 
+h3. Connect to a central ruby interpreter.
+ * sirb command history
+ * objects and classes persist across session
+ * variable scope is shared between users
+
+h3. How to use
+
+<pre>
+<code>
 ruby sirb_client.rb hostname port
+</code>
+</pre>
+
+h3. Example session
+
+<pre>
+<code>
+sirb(main):8D42> vi
+class A
+  def poo
+  end
+end
+:wq
+=>nil
+
+sirb(main:8D42> A.new
+=> #<SIRB::A:0x50a780>
+
+sirb(main:8D42> vi t.rb
+class A
+  def poo
+  end
+end
+:wq
+...
+
+sirb(main:8D42> vi t.rb
+:%s/A/B/g
+:wq
+
+sirb(main:8D42> B.new
+=> <SIRB::B>
+
+sirb(main:8D42> ObjectSpace.each_object(SIRB) { |sirb| y sirb }
+--- !ruby/object:SIRB 
+context: !ruby/object:Binding {}
+
+history: 
+  0DAE8F54-C575-4C79-BE19-CC39E577FD60: 
+  - ""
+  E2C4DFC2-E87E-4A5B-BA70-F434D77BFBB0: 
+  - ""
+  B4500BD2-EBBC-4499-9CBB-F424DD46B36B: 
+  - "2"
+  56059848-2149-409E-B01D-294B33CC8D27: 
+  - s
+  88D42B95-9980-4301-87BE-34737C073609: 
+  - asdf
+  - "1"
+  - asdf
+  - Asdf
+  - Asdf
+  - A
+  - B
+  - "clsas "
+  - class B; end
+  - B
+  1DA49301-0E73-48D1-A407-0A32A29F5CD6: 
+  - "1"
+  3093621A-DA36-4622-B684-F7AEF0B306C8: 
+  - ""
+  2A4E8D47-0C3C-4126-814F-A3475D8598EB: 
+  - a
+  BF3A500F-1A86-4507-B8A2-07F8B371F910: 
+  - ""
+  - ""
+  - ""
+  - ""
+  0991B9B7-6EEA-4D4A-B647-63A7C4FE877D: 
+  - "3"
+  26BCCC2E-6B9B-4ABB-9523-3418A2D842CF: 
+  - a
+  - s
+  - "1"
+  - "2"
+  - "3"
+  - "4"
+  - ""
+  - ""
+  - ""
+  - ""
+  - ""
+  - ""
+  - ""
+  - ""
+  - ""
+  - ""
+  - ""
+  - ""
+  - ""
+  - ""
+  - ""
+  - ""
+  - ""
+  - ""
+  - ""
+  - ""
+  - ""
+  - ""
+  - ""
+  - ""
+  - ""
+  - ""
+  - ""
+  - ""
+  - ""
+  - ""
+  - ""
+  - ""
+  - ""
+  - "31"
+  - ""
+  - ""
+  - a
+  - "345"
+  - "31"
+  - |
+    class A
+    def initialize
+    end
+    end
+
+  - A.new
+  - |
+    class A
+    def initialize
+    end
+    end
+
+  - a
+  - ""
+  - ""
+  - ""
+  - a
+  - ""
+  - ""
+  - ""
+  - ""
+  - a
+  - a
+  - A
+  - |
+    class A; end
+
+  - a
+  - A
+  - ""
+  - ""
+  - ""
+  - ""
+  73292041-E0B0-404A-BADB-236CBAA15FAD: 
+  - ""
+  C8A59F7C-2E7F-4CAE-87A0-908385FDA670: 
+  - ""
+  084630B1-0F92-4A4E-B54C-1F5536065548: 
+  - "4"
+  F33A74CE-BB52-46B5-9CF0-207477C380E2: 
+  - s
+  E6E85800-9992-4960-AC08-5C6E03CA9A04: 
+  - ""
+  9B6F85EA-C0B8-4D95-AF70-3239C189B300: 
+  - "1"
+  7DF3CF4D-250C-4612-AA05-DF7B641EC5AA: 
+  - b
+  8295CB2C-935E-49E2-840F-57CC5A19DDAA: 
+  - ""
+  BA0B046C-D63C-4641-B94C-8A3754FA3C4A: 
+  - "2"
+  36B8BD4B-73E2-4315-BC1A-C222DFE18A48: 
+  - ""
+  B04BC712-5CA3-461D-8F81-9F5B07AAEF3E: 
+  - ""
+  05340ACB-B6DD-446B-8107-8450DDFBD466: 
+  - a
+  47AE545D-D4C9-42FA-9FE4-570E7930246B: 
+  - "1"
+  - "2"
+  - "3"
+  - "4"
+  - A.new
+  - a
+  - "1"
+  - |
+    class Fart
+      def initialize
+        p 'wee'
+      end
+    end
+
+  - Fart.new
+  - ObjectSpace.each_object(SIRB) { |sirb| p sirb }
+  - ObjectSpace.each_object(SIRB) { |sirb| p sirb.history }
+  - ObjectSpace.each_object(SIRB) { |sirb| p sirb.instance_eval { @history } }
+  - ObjectSpace.each_object(SIRB) { |sirb| p sirb.instance_eval { @history.last } }
+  - ObjectSpace.each_object(SIRB) { |sirb| p sirb.instance_eval { @history. } }
+  - self
+  - session
+  - session_id
+  - ObjectSpace.each_object(SIRB) { |sirb| p sirb.instance_eval { @history } }
+  - ObjectSpace.each_object(SIRB) { |sirb| p sirb.instance_eval { @history } }
+  - ObjectSpace.each_object(SIRB) { |sirb| p sirb }
+  - ObjectSpace.each_object(SIRB) { |sirb| p sirb }
+  - ObjectSpace.each_object(SIRB) { |sirb| p sirb.inspect }
+  - ObjectSpace.each_object(SIRB) { |sirb| y sirb }
+  9F682879-96DF-4915-B43E-93ECF6111A9E: 
+  - ""
+mutex: !ruby/object:Mutex {}
+=> 1
+</code>
+</pre>
