@@ -3,6 +3,7 @@ require 'active_support/core_ext/class/attribute_accessors.rb'
 require 'active_support/core_ext/array'
 require 'json'
 require 'httparty'
+require File.dirname(__FILE__) + '/../helpers'
 
 SIRB_HOST = ARGV[0]
 SIRB_PORT = ARGV[1]
@@ -10,6 +11,7 @@ SIRB_SESSION_FILE = "#{ENV['HOME']}/.sirb_session"
 
 class SIRBClient
   include HTTParty
+  include HTTParty::Hacks
   base_uri "http://#{SIRB_HOST}:#{SIRB_PORT}/"
 
   def self.get_session

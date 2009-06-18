@@ -16,6 +16,7 @@ class NilClass
   end
 end
 
+require 'sinatra'
 module Sinatra
   class Base
     private
@@ -31,4 +32,21 @@ module Sinatra
   end
 end
 
+module HTTParty::Hacks
+  def self.included(base)
+    base.extend(ClassMethods)
+  end
 
+  module ClassMethods
+    # hax, since httparty doesn't do cookies properly yet.
+    def post(action, query={})
+      query[:cookie] = cookies['rack.session']
+      super(action, query)
+    end
+    
+    def get(action, query={})
+      query[:cookie] = cookies['rack.session']
+      super(action, query)
+    end
+  end
+end
