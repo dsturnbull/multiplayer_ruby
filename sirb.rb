@@ -32,9 +32,9 @@ require File.dirname(__FILE__) + '/lib/sirb/client'
 class SIRBCli
   def interpreter
     SIRBClient.set_history
+    prompt = SIRBClient.prompt
     loop do
       cmd = nil
-      prompt = SIRBClient.prompt
       line = Readline::readline(prompt)
       if line =~ /^vi$/
         cmd = vi

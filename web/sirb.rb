@@ -10,6 +10,7 @@ enable :sessions
 set :views => File.dirname(__FILE__) + '/views'
 
 before do
+  session[:id] = params[:cookie] unless params[:cookie].blank?
   session[:id] = `uuidgen`.strip if session[:id].blank?
   session[:faux_tid] = session[:id].split('-').shift[1..4]
   session[:prompt] = "sirb(main):#{session[:faux_tid]}> "
