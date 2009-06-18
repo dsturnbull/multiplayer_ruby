@@ -1,6 +1,7 @@
 h2. SIRB
 
 h3. Connect to a central ruby interpreter.
+
 * sirb command history
 * objects and classes persist across session
 * variable scope is shared between users
