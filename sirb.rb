@@ -1,37 +1,59 @@
 require 'rubygems'
-require 'sinatra'
+require 'readline'
+require 'tempfile'
+require File.dirname(__FILE__) + '/lib/vi'
+require File.dirname(__FILE__) + '/lib/sirb/client'
 
-require File.dirname(__FILE__) + '/sirb_server'
-require File.dirname(__FILE__) + '/helpers'
+# sirb(main):8D42> vi
+# class A
+#   def poo
+#   end
+# end
+# :wq
+# sirb(main):8D42> class A
+#   def poo
+#   end
+# end
+# =>nil
+# sirb(main:8D42> vi t.rb
+# class A
+#   def poo
+#   end
+# end
+# :wq
+# ...
+# sirb(main:8D42> vi t.rb
+# :%s/A/B/g
+# :wq
+# sirb(main:8D42> B.new
+# => <SIRB::B>
+#
 
-enable :sessions
+class SIRBCli
+  def interpreter
+    SIRBClient.set_history
+    loop do
+      cmd = nil
+      prompt = SIRBClient.prompt
+      line = Readline::readline(prompt)
+      if line =~ /^vi$/
+        cmd = vi
+      elsif line =~ /^vi (.*)$/
+        cmd = vi $1
+      elsif line =~ /^lload '(.*)'/
+        cmd = File.read($1)
+      else
+        cmd = line
+      end
+      exit(0) if line.nil?
 
-before do
-  session[:id] = `uuidgen`.strip if session[:id].blank?
-  session[:faux_tid] = session[:id].split('-').shift[1..4]
-  session[:prompt] = "sirb(main):#{session[:faux_tid]}> "
+      unless cmd.nil?
+        puts SIRBClient.execute(:cmd => cmd)
+      end
+    end
+  end
 end
 
-get '/' do
-  haml :index
-end
+sirb = SIRBCli.new
+sirb.interpreter
 
-get '/stylesheets/style.css' do
-  content_type :css
-  sass :style
-end
-
-post '/sirb' do
-  content_type :json
-  SIRBServer.execute(session, params['cmd'])
-end
-
-get '/sirb_history' do
-  content_type :json
-  SIRBServer.history(session, params[:page].to_i || 1, params[:per_page].to_i || 10, /#{params['matcher']}/)
-end
-
-get '/sirb_prompt' do
-  content_type :json
-  { :result => session[:prompt] }.to_json
-end
