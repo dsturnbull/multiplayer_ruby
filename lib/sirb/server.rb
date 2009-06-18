@@ -24,10 +24,10 @@ class SIRB
     []
   end
 
-  def execute(user, cmd)
+  def execute(user, cmd, line)
     stdout = []
     @history[user[:id]] ||= []
-    @history[user[:id]].push(cmd)
+    @history[user[:id]].push(line)
     @mutex.synchronize do
       begin
         _stdout = $stdout

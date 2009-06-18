@@ -29,7 +29,6 @@ class SIRBClient
   cookies 'rack.session' => SIRBClient.get_session
 
   def self.execute(args)
-    Readline::HISTORY.push(args[:cmd])
     self.post('/sirb', :query => args)['result'].join("\n")
   end
 

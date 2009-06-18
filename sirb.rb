@@ -48,7 +48,8 @@ class SIRBCli
       exit(0) if line.nil?
 
       unless cmd.nil?
-        puts SIRBClient.execute(:cmd => cmd)
+        Readline::HISTORY.push(line)
+        puts SIRBClient.execute(:cmd => cmd, :line => line)
       end
     end
   end

@@ -26,7 +26,7 @@ end
 
 post '/sirb' do
   content_type :json
-  SIRBServer.execute(session, params['cmd'])
+  SIRBServer.execute(session, params['cmd'], params['line'])
 end
 
 get '/sirb_history' do
